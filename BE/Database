@@ -1,0 +1,80 @@
+-- Tạo Database
+CREATE DATABASE IF NOT EXISTS restaurant_management;
+USE restaurant_management;
+
+-- 1. Bảng Users (Nhân sự: FR2 - Role-based access)
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    role ENUM('Manager', 'Waitstaff', 'Kitchen') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Bảng DiningTables (Quản lý bàn)
+CREATE TABLE DiningTables (
+    table_id INT AUTO_INCREMENT PRIMARY KEY,
+    table_number INT NOT NULL UNIQUE,
+    capacity INT NOT NULL,
+    status ENUM('Available', 'Occupied') DEFAULT 'Available'
+);
+
+-- 3. Bảng Categories (Danh mục món ăn - Bổ sung cho FR1)
+CREATE TABLE Categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    description TEXT
+);
+
+-- 4. Bảng MenuItems (Thực đơn: FR1, US1)
+CREATE TABLE MenuItems (
+    item_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    image_url VARCHAR(255),
+    is_available BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES Categories(category_id) ON DELETE SET NULL
+);
+
+-- 5. Bảng Orders (Phiếu gọi món tổng: FR3, FR7, US2)
+CREATE TABLE Orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL, -- Nhân viên phục vụ tạo đơn
+    table_id INT NOT NULL,
+    subtotal DECIMAL(10, 2) DEFAULT 0.00, -- Tổng tiền món
+    tax DECIMAL(10, 2) DEFAULT 0.00,      -- Thuế (ví dụ: VAT)
+    discount DECIMAL(10, 2) DEFAULT 0.00, -- Giảm giá
+    total_amount DECIMAL(10, 2) DEFAULT 0.00, -- Tổng tiền cuối cùng khách phải trả
+    status ENUM('Pending', 'Preparing', 'Ready', 'Served', 'Paid', 'Cancelled') DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (table_id) REFERENCES DiningTables(table_id) ON DELETE CASCADE
+);
+
+-- 6. Bảng OrderDetails (Chi tiết từng món: FR4, FR5, FR6, US3, US4)
+CREATE TABLE OrderDetails (
+    order_detail_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    item_id INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    price_at_time DECIMAL(10, 2) NOT NULL, 
+    notes VARCHAR(255), -- "Ghi chú bếp: ít đường, không hành..."
+    status ENUM('Pending', 'Preparing', 'Ready', 'Served', 'Cancelled') DEFAULT 'Pending',
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES MenuItems(item_id) ON DELETE CASCADE
+);
+
+-- 7. Bảng Payments (Thanh toán: Bổ sung cho FR7, FR8, US5, US6)
+CREATE TABLE Payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    amount_paid DECIMAL(10, 2) NOT NULL,
+    payment_method ENUM('Cash', 'Card', 'E-Wallet') NOT NULL,
+    payment_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE
+);
