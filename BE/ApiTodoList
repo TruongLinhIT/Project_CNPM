@@ -28,7 +28,7 @@ Middleware yêu cầu: Chỉ Manager mới có quyền truy cập.
 
 [ ] GET /api/menu : Lấy danh sách món ăn (có hỗ trợ filter theo category_id và is_available).
 
-[ ] POST /api/menu : Thêm món ăn mới (Chỉ Manager).
+[ ] POST /api/menu : Thêm món ăn mới (Chỉ Manager)......
 
 [ ] PUT /api/menu/:id : Cập nhật thông tin món ăn (giá, tên, trạng thái còn/hết).
 
