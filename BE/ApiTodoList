@@ -34,7 +34,7 @@ Middleware yêu cầu: Chỉ Manager mới có quyền truy cập.
 
 [ ] DELETE /api/menu/:id : Xóa món ăn.
 
-📦 Module 5: Quản lý Đơn hàng (Orders & OrderDetails)
+📦 Module 5: Quản lý Đơn hàng (Orders & OrderDetails).......
 Đây là Module cốt lõi, cần viết logic tính toán thật kỹ.
 
 [ ] POST /api/orders : Tạo đơn hàng mới. Mở bàn, insert vào Orders và insert danh sách món vào OrderDetails (kèm price_at_time).
