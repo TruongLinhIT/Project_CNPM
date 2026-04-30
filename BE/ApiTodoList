@@ -32,7 +32,7 @@ Middleware yêu cầu: Chỉ Manager mới có quyền truy cập.
 
 [ ] PUT /api/menu/:id : Cập nhật thông tin món ăn (giá, tên, trạng thái còn/hết).
 
-[ ] DELETE /api/menu/:id : Xóa món ăn.
+[ ] DELETE /api/menu/:id : Xóa món ăn.........
 
 📦 Module 5: Quản lý Đơn hàng (Orders & OrderDetails).......
 Đây là Module cốt lõi, cần viết logic tính toán thật kỹ.
