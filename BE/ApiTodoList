@@ -1,25 +1,25 @@
 📦 Module 1: Xác thực & Phân quyền (Authentication)
-[ ] POST /api/auth/login : Đăng nhập và trả về JWT Token (dành cho mọi Role).
+[ ] POST /api/auth/login : Đăng nhập
 
-[ ] GET /api/auth/me : Lấy thông tin cá nhân của user đang đăng nhập (dựa trên token).
+
 
 📦 Module 2: Quản lý Nhân sự (Users)
 Middleware yêu cầu: Chỉ Manager mới có quyền truy cập.
 
-[ ] GET /api/users : Lấy danh sách toàn bộ nhân viên.
+[ ] GET /api/users : Lấy danh sách toàn bộ nhân viên. (admin)
 
-[ ] POST /api/users : Tạo tài khoản nhân viên mới (Phục vụ, Bếp).
+[ ] POST /api/users : Tạo tài khoản nhân viên mới (Phục vụ, Bếp).(admin)
 
-[ ] PUT /api/users/:id : Cập nhật thông tin nhân viên (đổi tên, đổi role).
+[ ] PUT /api/users/:id : Cập nhật thông tin nhân viên (đổi tên, đổi role).(admin)
 
-[ ] DELETE /api/users/:id : Xóa hoặc vô hiệu hóa tài khoản nhân viên.
+[ ] DELETE /api/users/:id : Xóa hoặc vô hiệu hóa tài khoản nhân viên.(admin)
 
 📦 Module 3: Quản lý Bàn ăn (Dining Tables)
-[ ] GET /api/tables : Lấy danh sách tất cả các bàn và trạng thái hiện tại (Available/Occupied).
+[ ] GET /api/tables : Lấy danh sách tất cả các bàn và trạng thái hiện tại (Available/Occupied).(waitstaff)
 
 [ ] POST /api/tables : Thêm bàn mới (Chỉ Manager).
 
-[ ] PUT /api/tables/:id/status : Cập nhật trạng thái bàn (khi khách ngồi vào hoặc rời đi).
+[ ] PUT /api/tables/:id/status : Cập nhật trạng thái bàn (khi khách ngồi vào hoặc rời đi).(waitstaff)
 
 📦 Module 4: Quản lý Danh mục & Thực đơn (Categories & Menu Items)
 [ ] GET /api/categories : Lấy danh sách danh mục món ăn (Public cho staff).

@@ -8,7 +8,15 @@ const {
 
 async function createOrderController(req, res) {
   try {
-    const order = await createOrder(req.body, req.user.user_id);
+    // Vì không dùng JWT, ta lấy user_id từ body hoặc một giá trị mặc định nếu không có
+    // FE nên gửi kèm user_id của người tạo order (đã lưu sau khi login)
+    const userId = req.body.user_id || (req.user ? req.user.user_id : null);
+
+    if (!userId) {
+      return failure(res, 'User ID is required to create an order', null, 400);
+    }
+
+    const order = await createOrder(req.body, userId);
     return success(res, 'Order created', order, 201);
   } catch (error) {
     return failure(res, error.message, error.details || null, error.statusCode || 500);

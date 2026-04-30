@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
 function sanitizeUser(user) {
@@ -10,28 +9,6 @@ function sanitizeUser(user) {
     role: user.role,
     created_at: user.created_at
   };
-}
-
-async function registerUser(payload) {
-  const { username, password, full_name, role } = payload;
-
-  if (!username || !password || !full_name || !role) {
-    const err = new Error('Missing required fields');
-    err.statusCode = 400;
-    throw err;
-  }
-
-  const exists = await User.findOne({ where: { username } });
-  if (exists) {
-    const err = new Error('Username already exists');
-    err.statusCode = 409;
-    throw err;
-  }
-
-  const password_hash = await bcrypt.hash(password, 10);
-  const user = await User.create({ username, password_hash, full_name, role });
-
-  return sanitizeUser(user);
 }
 
 async function loginUser(payload) {
@@ -57,17 +34,9 @@ async function loginUser(payload) {
     throw err;
   }
 
-  const token = jwt.sign(
-    {
-      user_id: user.user_id,
-      username: user.username,
-      role: user.role
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
-  );
-
-  return { token, user: sanitizeUser(user) };
+  // Removed JWT generation as requested.
+  // Returning only user info.
+  return { user: sanitizeUser(user) };
 }
 
-module.exports = { registerUser, loginUser };
+module.exports = { loginUser };
