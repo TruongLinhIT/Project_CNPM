@@ -22,7 +22,7 @@ Middleware yêu cầu: Chỉ Manager mới có quyền truy cập.
 [ ] PUT /api/tables/:id/status : Cập nhật trạng thái bàn (khi khách ngồi vào hoặc rời đi).(waitstaff)
 
 📦 Module 4: Quản lý Danh mục & Thực đơn (Categories & Menu Items)
-[ ] GET /api/categories : Lấy danh sách danh mục món ăn (Public cho staff).
+[ ] GET /api/categories : Lấy danh sách danh mục món ăn (Public cho staff).........
 
 [ ] POST /api/categories : Thêm danh mục mới (Chỉ Manager).
 
